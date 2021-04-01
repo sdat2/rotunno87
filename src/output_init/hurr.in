@@ -1,0 +1,46 @@
+Actual Value	Regular Value 	Parameter Name  Parameter Description
+------------	-------------	--------------  ---------------------
+1013.0		1013.0		PDS     	Ambient surface pressure (mb)
+5.0		5.0		FC   		Coriolis parameter (10**-5 s**-1)
+1.0		1.0		CD  		Surface drag coefficient (10**-3)
+1.0  	  	1.0		CE    		Surface enthalpy coefficient` (10**-3)
+4.0		4.0		CD1   		Wind-dependence of surface flux(s/m *10**-5)
+3.0             3.0             CDCAP           Maximum value of drag coef. (10**-3)
+3.0             3.0             CKCAP           Maximum value of enthalpy coef. (10**-3)
+200.0           200.0           VCAP            Cap on wind speed (m/s) used in surface sensible and latent flux
+y		y		PDEP    	Pressure-dependent sea surface enthalpy?
+250.0		250.0		XHL     	Horizontal mixing length (m)
+500.0		500.0		XVL      	Vertical mixing length (m)
+1.0		1.0		DISS   		Coefficient of dissipative heating (0-1)
+12.0		12.0		TAUR    	Radiative relaxation time scale (hrs)
+2.0		2.0		RADMAX     	Cap on radiative cooling (C/day)
+0.1             0.1             ACT             Autoconversion threshold (gm/Kg)
+0.0		0.0		VTERM   	Precipitation fall speed (m/s). If zero, fall speed is calculated interactively
+2.0             2.0             VTERMSNOW       Snow fall speed (m/s). Not used if VTERM > 0
+y               y               EVAP            Evaporation of rain on? (y, n, or i for instantaneous evaporation)
+133.0		133.0		TMIN    	Lowest permitted T in sounding (K)
+
+        Initial Conditions:
+
+100.0		100.0		RMAX      	Radius of maximum winds (km)
+600.0		600.0		RO       	Radius of zero wind (km)
+18.0		18.0		VMAX        	Maximum wind (m/s)
+0.0		0.0		TMID    	SST anomaly amplitude (K)
+100.0		100.0		RSST     	SST anomaly decay length (Km)
+
+        Numerical Parameters:
+
+5.0		5.0		DT       	Large time step (sec)
+5		5		NS        	Number of small time steps per large time step
+0.1		0.1		EPS      	Asselin filter constant
+0.01		0.01		ALPHA      	Sponge layer damping coefficient
+1500.0		1500.0		RB      	Radius of outer wall (km)
+25.0		25.0		ZB   		Altitude of upper boundary (km)
+5		5		NSPONGE  	Number of sponge layer levels
+20.0		20.0		ETIME       	End time (days)
+1.0		1.0		TAVE     	Plot averaging time (days)
+2.0		2.0		PLTIME    	Time between plots (days)
+5.0		5.0		TIMMAX   	Print time interval (hrs)
+0.1		0.1		TIMEPL   	Time interval (days) used in time series
+1000.0		1000.0		ROG      	Maximum radius in plots (km)
+20.0		20.0		ZOG     	Maximum altitude in plots (km)

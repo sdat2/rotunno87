@@ -1,0 +1,65 @@
+# NOTE: These requirements are used for developing code on the repo. 
+# As a standard they include certain formatters and linters.
+
+# core packages
+xarray==0.17
+matplotlib>=3.1
+
+# local package
+-e ../.
+
+# external requirements (mostly linters and formatters)
+flake8              # flake8 linter
+flake8-docstrings   # docstring support for flake8
+mypy                # python type checker
+black               # automatic formatting provider
+isort               # automatic import sorter
+python-dotenv       # environment variable manager
+pylint              # use pylint instead of flake8
+pre-commit          # perform checks on code
+autoreload
+
+#testing
+pytest
+coveralls
+
+# documentation
+sphinx
+sphinx_autodoc_typehints
+sphinx_rtd_theme
+sphinx-markdown-tables
+recommonmark
+nbsphinx
+
+
+# linear algebra and general data analysis
+numpy               # arrays, linear algebra
+scipy               # linear algebra and numerical mathematics
+numba               # speeding up array operations
+pandas              # tabular data analysis
+scipy               # scipy
+
+# interactive computing
+tqdm                # loading bar
+jupyterlab          # jupyter notebooks
+jupyter
+ipython
+jupyterthemes       # change the color of jupyter-notebooks etc
+
+# useful xarray extensions
+eccodes
+dask[complete]      # allows more lazy operation for xarray.
+bottleneck
+nc-time-axis
+netCDF4             # makes sure that the default driver is netCDF4.
+
+# configuration inputs.
+hydra-core
+
+# Wandb
+wandb              # automatic recording of runs
+
+# graphics
+imageio
+imageio-ffmpeg
+seaborn

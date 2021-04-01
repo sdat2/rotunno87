@@ -1,0 +1,12 @@
+#! /bin/sh
+EX_NAME='hurricane'$1'.exe'
+gfortran -std=f95 -Wextra -Wall -pedantic -Ofast -frecursive -O3 -fdump-parse-tree hurricane.f -o ${EX_NAME}
+mkdir -p output
+echo ./${EX_NAME}
+./${EX_NAME}
+cp hurr.in output/
+cp s.in output/
+rm -f -r output_"$1"
+mv output output_"$1"
+mkdir output
+echo '\a'
