@@ -3,8 +3,8 @@ Actual Value	Regular Value 	Parameter Name  Parameter Description
 1013.0		1013.0		PDS     	Ambient surface pressure (mb)
 5.0		5.0		FC   		Coriolis parameter (10**-5 s**-1)
 1.0		1.0		CD  		Surface drag coefficient (10**-3)
-1.0  	  	1.0		CE    		Surface enthalpy coefficient` (10**-3)
-4.0		4.0		CD1   		Wind-dependence of surface flux(s/m *10**-5)
+1.0  	  	1.0		CE    		Surface enthalpy coefficient (10**-3)
+4.0		4.0		CD1   		Wind-dependence of surface flux (s/m *10**-5)
 3.0             3.0             CDCAP           Maximum value of drag coef. (10**-3)
 3.0             3.0             CKCAP           Maximum value of enthalpy coef. (10**-3)
 200.0           200.0           VCAP            Cap on wind speed (m/s) used in surface sensible and latent flux
@@ -26,7 +26,7 @@ y               y               EVAP            Evaporation of rain on? (y, n, o
 600.0		600.0		RO       	Radius of zero wind (km)
 18.0		18.0		VMAX        	Maximum wind (m/s)
 0.0		0.0		TMID    	SST anomaly amplitude (K)
-100.0		100.0		RSST     	SST anomaly decay length (Km)
+100.0		100.0		RSST     	SST anomaly decay length (km)
 
         Numerical Parameters:
 

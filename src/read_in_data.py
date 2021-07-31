@@ -40,9 +40,10 @@ class ReadData:
         param_d = {}
         with open(os.path.join(self.output_dir, name), "r") as file:
             for line in file:
+                line = line.replace("\t", "   ")
                 el = [
                     x.strip("\n")
-                    for x in [x.strip(" ") for x in line.split("\t")]
+                    for x in [x.strip(" ") for x in line.split("    ")]
                     if x != ""
                 ]
                 if len(el) >= 4:
@@ -51,7 +52,7 @@ class ReadData:
 
         param_d["PDS"] = float(param_d["PDS"]) * self.ureg.millibar
         param_d["CD"] = float(param_d["CD"]) * 1e-3
-        param_d["CD1"] = float(param_d["CD1"]) * 1e-5
+        param_d["CD1"] = float(param_d["CD1"]) * 1e-5 * self.ureg.second / self.ureg.meter
         param_d["CE"] = float(param_d["CE"]) * 1e-3
         param_d["FC"] = float(param_d["FC"]) * 1e-5 / self.ureg.seconds
         param_d["PDEP"] = str(param_d["PDEP"])
@@ -62,7 +63,8 @@ class ReadData:
         param_d["VMAX"] = float(param_d["VMAX"]) * self.ureg.meter / self.ureg.seconds
         param_d["ROG"] = float(param_d["ROG"]) * self.ureg.kilometers
         param_d["RSST"] = float(param_d["RSST"]) * self.ureg.kilometers
-        param_d["RADMAX"] = float(param_d["RADMAX"]) # * self.ureg.celsius / self.ureg.days
+        param_d["RADMAX"] = float(param_d["RADMAX"]) * self.ureg.delta_celsius / self.ureg.days
+        # 'delta_degC/second'
         param_d["RMAX"] = float(param_d["RMAX"]) * self.ureg.kilometers
         param_d["ZOG"] = float(param_d["ZOG"]) * self.ureg.kilometers
         param_d["NS"] = float(param_d["NS"])
@@ -83,7 +85,10 @@ class ReadData:
         param_d["TAVE"] = float(param_d["TAVE"]) * self.ureg.days
         param_d["TMID"] = float(param_d["TMID"]) * self.ureg.kelvin
         param_d["TMIN"] = float(param_d["TMIN"]) * self.ureg.kelvin
-
+        param_d["TAUR"] = float(param_d["TAUR"]) * self.ureg.hours
+        param_d["VTERM"] = float(param_d["VTERM"]) * self.ureg.meter / self.ureg.second
+        param_d["VTERMSNOW"] = float(param_d["VTERMSNOW"]) * self.ureg.meter / self.ureg.second
+        param_d["VCAP"] = float(param_d["VCAP"]) * self.ureg.meter / self.ureg.second
         return param_d
 
     def get_days(self) -> np.array:
@@ -225,16 +230,20 @@ class ReadData:
 
                 if np.all((0, 265) == get_range(ds[key]["x"].values)):
                     da = ds[key]
-                    da = da.assign_coords({"r": ("x", self.rgraph)})
-                    da = da.assign_coords({"z": ("y", self.zgraph)})
-                    da_out.append(ds[key])
+                    da = da.assign_coords({"x": ("x", self.rgraph)})
+                    da = da.assign_coords({"y": ("y", self.zgraph)})
+                    da.y.attrs["units"] = "km"
+                    da.y.attrs["long_name"] = "r"
+                    da.x.attrs["units"] = "km"
+                    da.y.attrs["long_name"] = "z"
+                    da_out.append(da)
 
                 else:
                     da_out2.append(ds[key].rename({"x": "y", "y": "x"}))
             return xr.merge(da_out), xr.merge(da_out2)
 
-        tim_l = ["0" + str(i) for i in range(1, 10)]
-        # tim_l[0] = ""
+        tim_l = ["0" + str(i) for i in range(0, 10)]
+        tim_l[0] = ""
         ds1_l = []
         ds2_l = []
         for tim in tim_l:
@@ -243,12 +252,12 @@ class ReadData:
                 "ucon",
                 "vcon",
                 "wcon",
-                "pcon",
-                "tfcon",
-                "qcon",
-                "tescon",
-                "tecon",
-                "liqcon",
+                #"pcon",
+                #"tfcon",
+                # "qcon",
+                #"tescon",
+                #"tecon",
+                #"liqcon",
             ]:
                 # qcon not at 0
                 ti_a[key] = self.get_tab_array(name=key + tim + ".out", delim=" ")
@@ -258,7 +267,7 @@ class ReadData:
 
         ds1 = xr.concat(ds1_l, "T")
         ds2 = xr.concat(ds2_l, "T")
-        times = [float(self.param["PLTIME"].magnitude) * (x + 1) for x in range(ds1.sizes["T"])]
+        times = [float(self.param["PLTIME"].magnitude) * (x) for x in range(ds1.sizes["T"])]
         ds1 = ds1.assign_coords({"T": ("T", times)})
         ds1["T"].attrs["units"] = "days"
         ds2 = ds2.assign_coords({"T": ("T", times)})
