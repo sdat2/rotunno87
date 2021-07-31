@@ -5,7 +5,7 @@ from src.visualisation.ani import animate_prediction
 
 
 def test_animate_prediction() -> None:
-    """test `src.visualisation.ani.animate_prediction` """
+    """test `src.visualisation.ani.animate_prediction`"""
     print("testing animate prediction")
     da = (
         xr.tutorial.load_dataset("air_temperature")
