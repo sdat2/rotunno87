@@ -38,7 +38,7 @@ router=input('Choose outer limit of radial plots (km)');
 % Open input file 'hurr.in' used to control integration and extract certain
 % parameters
 %
-slash='/';
+slash='/'; % ok for unix.
 fid=fopen(strcat(sfile,slash,'hurr.in'),'r');
 % Account for addition to hurr.in info on July 1 2020
 nlines=16;

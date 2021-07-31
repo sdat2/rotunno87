@@ -80,7 +80,7 @@ html_theme_options = {
 html_context = {
     "display_github": True,
     "github_user": "sdat2",
-    "github_repo": "seager19",
+    "github_repo": "rotunno87",
     "github_version": "main/docs/",
 }
 
