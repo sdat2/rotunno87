@@ -34,6 +34,14 @@ def get_param(name: str = "hurr.in") -> dict:
     return param_d
 
 def get_s(name: str = "s.in") -> xr.Dataset:
+    """Get the s profiles as a dataset.
+
+    Args:
+        name (str, optional): [description]. Defaults to "s.in".
+
+    Returns:
+        xr.Dataset: [description]
+    """
     param_d_loc = {}
     s_l = []
     with open(os.path.join(output_dir, name), "r") as file:
@@ -95,8 +103,8 @@ def get_outputs(tim: str="05") -> Tuple[dict, dict]:
     return di_a, ti_a
 
 
-def tdsts():
-    def make_datasets(d2):
+def tdsts() -> Tuple[xr.Dataset, xr.Dataset]:
+    def make_datasets(d2) -> Tuple[xr.Dataset, xr.Dataset]:
         da_out = []
         da_out2 = []
         for key in d2:
@@ -113,7 +121,7 @@ def tdsts():
                 da_out.append(ds[key])
             else:
                 da_out2.append(ds[key].rename({"x":"y", "y": "x"}))
-        return xr.merge(da_out), xr.merge(da_out)
+        return xr.merge(da_out), xr.merge(da_out2)
 
     tim_l = ["0"+ str(i) for i in range(1, 10)]
     # tim_l[0] = ""
@@ -149,8 +157,8 @@ if __name__ == "__main__":
     di_a, ti_a = get_outputs()
     print(di_a, ti_a)
     param_d = get_param()
-    sin_npa, names, units = get_s(name="s.in")
-    sout_npa, names, units = get_s(name="s.out")
+    sin_ds = get_s(name="s.in")
+    sout_ds = get_s(name="s.out")
     print(sin_npa)
     print(sout_npa)
     print(param_d)
