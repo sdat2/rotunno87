@@ -45,16 +45,25 @@ class ReadData():
         param_d["PDEP"] = str(param_d["PDEP"])
         param_d["DISS"] = float(param_d["DISS"])
         param_d["RB"] = float(param_d["RB"])
+        param_d["PLTIME"] = float(param_d["PLTIME"])
         param_d["TIMEPL"] = float(param_d["TIMEPL"])
         param_d["ETIME"] = float(param_d["ETIME"])
         time = 5
         router = 4
         param_d["ROUTER"] = min([param_d["RB"], router])
-        param_d["DINT"] = param_d["TIMEPL"]
+        param_d["DINT"] = param_d["PLTIME"]
         param_d["ULAST"] =  param_d["ETIME"] // param_d["DINT"] - 1
         # param_d["DAYS"] = [x*param_d["DINT"] for x in range(0,  int(param_d["ULAST"]) + 1)]
         param_d["TIME"] = time
         return param_d
+    
+    def get_days(self) -> np.array:
+        """Get days.
+
+        Returns:
+            np.array: numpy array.
+        """
+        return np.array([x*self.param["DINT"] for x in range(0,  int(self.param["ULAST"]) + 1)])
 
     def get_s(self, name: str = "s.in") -> xr.Dataset:
         """Get the s profiles as a dataset.
@@ -116,6 +125,14 @@ class ReadData():
 
 
     def get_outputs(self, tim: str="05") -> Tuple[dict, dict]:
+        """Get the outputs.
+
+        Args:
+            tim (str, optional): [description]. Defaults to "05".
+
+        Returns:
+            Tuple[dict, dict]: [description]
+        """
         di_a = {}
         for key in ["radius", "rgraph", "zgraph", "time", "vmaxz", "vthov", "uthov", "vbhov", "ubhov", "thehov"]:
             di_a[key] = self.get_tab_array(name=key + ".out", delim=" ")
@@ -126,7 +143,7 @@ class ReadData():
         return di_a, ti_a
 
 
-    def tdsts(self) -> Tuple[xr.Dataset, xr.Dataset]:
+    def get_time_datasets(self) -> Tuple[xr.Dataset, xr.Dataset]:
         """Tdsts.
 
         Returns:
@@ -162,8 +179,15 @@ class ReadData():
             ds1, ds2 = make_datasets(ti_a)
             ds1_l.append(ds1)
             ds2_l.append(ds2)
-
-        return xr.concat(ds1_l, "T"), xr.concat(ds2_l, "T")
+        
+        ds1 = xr.concat(ds1_l, "T")
+        ds2 = xr.concat(ds2_l, "T")
+        times = [float(self.param["PLTIME"])*(x+1) for x in range(ds1.sizes["T"])]
+        ds1 = ds1.assign_coords({"T": ("T", times)})
+        ds1["T"].attrs["units"] = "days"
+        ds2 = ds2.assign_coords({"T": ("T", times)})
+        ds2["T"].attrs["units"] = "days"
+        return ds1, ds2
         # return ds1_l, ds2_l
 
 
