@@ -9,8 +9,6 @@ import xarray as xr
 import pint
 from src.constants import SRC_PATH
 
-# import pandas as pd
-
 
 class ReadData:
     """An object ot reat the data files, 
@@ -233,7 +231,7 @@ class ReadData:
                     da = da.assign_coords({"x": ("x", self.rgraph)})
                     da = da.assign_coords({"y": ("y", self.zgraph)})
                     da.y.attrs["units"] = "km"
-                    da.y.attrs["long_name"] = "r"
+                    da.x.attrs["long_name"] = "r"
                     da.x.attrs["units"] = "km"
                     da.y.attrs["long_name"] = "z"
                     da_out.append(da)
@@ -276,7 +274,7 @@ class ReadData:
         # return ds1_l, ds2_l
 
 
-""""
+"""
 print(get_tab_array(name="radius" + ".out", delim=" "))
 print(get_tab_array(name="rgraph" + ".out", delim=" "))
 print(get_tab_array(name="zgraph" + ".out", delim=" "))
