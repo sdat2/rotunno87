@@ -58,21 +58,26 @@ def animate(
             """
             time = index
             fig, axs = plt.subplots(3, 1, sharex=True)
-            ds_uv.ucon.isel(T=time, x=slice(0, 100)).plot(ax=axs[0],
+            ds_uv.ucon.isel(T=time, 
+                            x=slice(0, 100)).plot(
+                                        ax=axs[0],
                                         vmin=umin, 
                                         vmax=umax, 
                                         cmap=cmap, 
                                         cbar_kwargs={"label": "$u$ [m s$^{-1}$]"})
             axs[0].set_xlabel("")
             axs[0].set_title("Day " +"{:.0f}".format(ds_uv.coords["T"].values[time]))
-            ds_uv.vcon.isel(T=time, x=slice(0, 100)).plot(ax=axs[1],
+            ds_uv.vcon.isel(T=time, 
+                            x=slice(0, 100)).plot(
+                                        ax=axs[1],
                                         vmin=vmin, 
                                         vmax=vmax, 
                                         cmap=cmap, 
                                         cbar_kwargs={"label": "$v$ [m s$^{-1}$]"})
             axs[1].set_xlabel("")
             axs[1].set_title("")
-            ds_uv.wcon.isel(T=time, x=slice(0, 100)).plot(ax=axs[2],
+            ds_uv.wcon.isel(T=time, x=slice(0, 100)).plot(
+                                        ax=axs[2],
                                         vmin=wmin, 
                                         vmax=wmax, 
                                         cmap=cmap, 

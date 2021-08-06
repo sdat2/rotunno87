@@ -39,5 +39,5 @@ The citation for this paper is:
 
 ```
 
-# Example model run
+## Example model run
 ![Model run](gifs/ani_model.gif)
