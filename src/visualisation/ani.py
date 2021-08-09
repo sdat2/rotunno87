@@ -15,7 +15,7 @@ from src.read_in_data import ReadData
 
 @timeit
 def animate(
-    video_path: str = "ani_model.gif",
+    video_path: str = "gifs/ani_model.mp4",
 ) -> None:
     """This function animates the inputs, labels, predictions.
 
@@ -25,11 +25,13 @@ def animate(
 
     read = ReadData()
     ds_uv, _ = read.get_time_datasets()
+
     def balance(tup):
         return min(tup[0], -tup[1]), max(-tup[0], tup[1])
 
     def mi(a):
         return np.percentile(a, 2)
+
     def ma(a):
         return np.percentile(a, 98)
 
@@ -58,30 +60,31 @@ def animate(
             """
             time = index
             fig, axs = plt.subplots(3, 1, sharex=True)
-            ds_uv.ucon.isel(T=time, 
-                            x=slice(0, 100)).plot(
-                                        ax=axs[0],
-                                        vmin=umin, 
-                                        vmax=umax, 
-                                        cmap=cmap, 
-                                        cbar_kwargs={"label": "$u$ [m s$^{-1}$]"})
+            ds_uv.ucon.isel(T=time, x=slice(0, 100)).plot(
+                ax=axs[0],
+                vmin=umin,
+                vmax=umax,
+                cmap=cmap,
+                cbar_kwargs={"label": "$u$ [m s$^{-1}$]"},
+            )
             axs[0].set_xlabel("")
-            axs[0].set_title("Day " +"{:.0f}".format(ds_uv.coords["T"].values[time]))
-            ds_uv.vcon.isel(T=time, 
-                            x=slice(0, 100)).plot(
-                                        ax=axs[1],
-                                        vmin=vmin, 
-                                        vmax=vmax, 
-                                        cmap=cmap, 
-                                        cbar_kwargs={"label": "$v$ [m s$^{-1}$]"})
+            axs[0].set_title("Day " + "{:.0f}".format(ds_uv.coords["T"].values[time]))
+            ds_uv.vcon.isel(T=time, x=slice(0, 100)).plot(
+                ax=axs[1],
+                vmin=vmin,
+                vmax=vmax,
+                cmap=cmap,
+                cbar_kwargs={"label": "$v$ [m s$^{-1}$]"},
+            )
             axs[1].set_xlabel("")
             axs[1].set_title("")
             ds_uv.wcon.isel(T=time, x=slice(0, 100)).plot(
-                                        ax=axs[2],
-                                        vmin=wmin, 
-                                        vmax=wmax, 
-                                        cmap=cmap, 
-                                        cbar_kwargs={"label": "$w$ [m s$^{-1}$]"})
+                ax=axs[2],
+                vmin=wmin,
+                vmax=wmax,
+                cmap=cmap,
+                cbar_kwargs={"label": "$w$ [m s$^{-1}$]"},
+            )
             axs[2].set_title("")
             fig.canvas.draw()
             image = np.frombuffer(fig.canvas.tostring_rgb(), dtype="uint8")
@@ -97,8 +100,9 @@ def animate(
         video_path,
         [make_frame(index) for index in tqdm(video_indices, desc=video_path)],
         fps=2,
-        )
+    )
     print("Video " + video_path + " made.")
+
 
 if __name__ == "__main__":
     # python src/visualisation/ani.py
